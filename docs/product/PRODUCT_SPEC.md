@@ -1,6 +1,6 @@
-# Product Specification / 产品规格
+# 产品规格
 
-## 中文
+
 
 ### 愿景与用户
 
@@ -8,11 +8,11 @@
 
 ### 目标体验
 
-候选主流程为：用户建立身份或使用经批准的访客模式，创建会话，提交问题，接收流式回复，并查看历史记录。此流程尚未实现，身份模式待决。
+当前主流程为：用户完成服务端身份认证，创建会话，提交问题，接收流式回复，并查看历史记录。MVP 不提供访客模式；此流程尚未实现。
 
 ### 能力范围
 
-聊天、会话历史、模型供应商、MCP/工具、检索、图像、语音和管理能力均为候选项，优先级见 [MVP 范围](MVP_SCOPE.md)。旧项目尚未审计，不能将其描述为已验证能力。
+聊天、会话历史为 P0；多模型供应商为 P1；MCP/工具、检索、图像、语音和管理能力为后续候选，优先级与证据见 [MVP 范围](MVP_SCOPE.md) 和 [旧项目迁移映射](../migration/LEGACY_REFERENCE_MAP.md)。
 
 ### 安全与隐私
 
@@ -25,29 +25,3 @@
 ### 非目标
 
 不提供自动确诊、处方、急救替代、未经人工批准的高影响操作或未经证据支持的临床有效性声明。
-
-## English
-
-### Vision and users
-
-Provide understandable, traceable health-information assistance with explicit safety boundaries. Target users, jurisdictions, age range, and any clinician-facing use remain for owner confirmation.
-
-### Intended experience
-
-A candidate journey is: establish an identity or use an approved guest mode, create a session, submit a question, receive a streamed answer, and review history. This journey is not implemented; identity mode is unresolved.
-
-### Capability scope
-
-Chat, session history, model providers, MCP/tools, retrieval, image, speech, and administration are candidates; prioritization is in the [MVP Scope](MVP_SCOPE.md). The legacy project has not been audited, so none of these are verified legacy capabilities.
-
-### Safety and privacy
-
-The assistant provides information, not definitive diagnosis or replacement for clinicians. It must communicate uncertainty and not fabricate sources; high-risk situations should direct users to local emergency services or qualified medical professionals. Collect only data needed for the service, avoid full-conversation logging by default, and enforce access authorization server-side. Retention periods, consent, applicable jurisdictions, and escalation wording require review.
-
-### Deployment and success measures
-
-Development uses local processes. Deployment environment and availability targets are undecided. Candidate measures include end-to-end task completion, correct stream termination, history consistency, correct authorization denial, and safety-evaluation results. The owner must set thresholds; no baseline or performance claim exists.
-
-### Non-goals
-
-No automated diagnosis, prescribing, replacement for emergency care, unapproved consequential actions, or unsupported clinical-effectiveness claims.

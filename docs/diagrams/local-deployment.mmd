@@ -1,12 +1,12 @@
 flowchart LR
-    dev[Developer / 开发者]
-    browser[Browser / 浏览器]
-    web[Web dev process / Web 开发进程\nReact + Vite]
-    gateway[Gateway process / Gateway 进程\nGo]
-    core[Core process / Core 进程\nC++]
-    agent[Agent process / Agent 进程\nPython]
-    db[(Local PostgreSQL / 本地 PostgreSQL)]
-    model[External model provider / 外部模型供应商\noptional, credentials required / 可选，需凭据]
+    dev[开发者]
+    browser[浏览器]
+    web[Web 开发进程\nReact + Vite]
+    gateway[Gateway 进程\nGo]
+    core[Core 进程\nC++]
+    agent[Agent 进程\nPython]
+    db[(本地 PostgreSQL)]
+    model[外部模型供应商\n可选，需凭据]
     dev --> web
     dev --> gateway
     dev --> core
@@ -15,4 +15,4 @@ flowchart LR
     gateway --> core
     gateway --> agent
     core --> db
-    agent -.->|optional / 可选| model
+    agent -.->|可选| model

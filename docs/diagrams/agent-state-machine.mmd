@@ -1,20 +1,20 @@
-%% Bounded Agent lifecycle / 有界 Agent 生命周期
+%% 有界 Agent 生命周期
 stateDiagram-v2
     [*] --> Accepted
-    Accepted --> Validating: validate request / 校验请求
-    Validating --> Running: valid request / 请求有效
-    Validating --> Failed: invalid request / 请求无效
-    Running --> CallingModel: invoke model / 调用模型
-    CallingModel --> Running: delta / bounded continuation / 增量 / 有界继续
-    Running --> CallingTool: allowlisted + authorized / 已允许且已授权
-    CallingTool --> Running: validated result / 结果已校验
-    CallingTool --> Failed: denied / invalid / tool error / 拒绝 / 无效 / 工具错误
-    Running --> Finalizing: answer ready / 答复就绪
-    Running --> Cancelled: cancel / client disconnect / 取消 / 客户端断开
-    CallingModel --> Failed: timeout / provider error / 超时 / 供应商错误
-    Running --> Failed: iteration or time budget exceeded / 超过迭代或时间预算
-    Finalizing --> Completed: Core confirms persistence / Core 确认持久化
-    Finalizing --> Failed: persistence failure / 持久化失败
+    Accepted --> Validating: 校验请求
+    Validating --> Running: 请求有效
+    Validating --> Failed: 请求无效
+    Running --> CallingModel: 调用模型
+    CallingModel --> Running: 增量 / 有界继续
+    Running --> CallingTool: 已允许且已授权
+    CallingTool --> Running: 结果已校验
+    CallingTool --> Failed: 拒绝 / 无效 / 工具错误
+    Running --> Finalizing: 答复就绪
+    Running --> Cancelled: 取消 / 客户端断开
+    CallingModel --> Failed: 超时 / 供应商错误
+    Running --> Failed: 超过迭代或时间预算
+    Finalizing --> Completed: Core 确认持久化
+    Finalizing --> Failed: 持久化失败
     Completed --> [*]
     Failed --> [*]
     Cancelled --> [*]

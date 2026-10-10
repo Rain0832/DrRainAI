@@ -1,6 +1,6 @@
-# Test Strategy / 测试策略
+# 测试策略
 
-## 中文
+
 
 本仓库当前无业务实现，因此没有可运行的产品测试，也不声明测试通过。测试命令须随具体服务和工具链确定。
 
@@ -14,18 +14,3 @@
 - Agent 评估：使用版本化合成案例；不得替代确定性测试。
 
 每项测试仅使用合成数据。故障测试覆盖断连、取消、超时、重试冲突、模型/工具错误与持久化失败。性能目标待基线测量后批准。
-
-## English
-
-This repository currently has no business implementation, runnable product tests, or test-pass claim. Define commands when the service/toolchains exist.
-
-### Test layers after implementation
-
-- Unit: Core domain rules, Gateway routing/timeouts, Agent state machine/budgets, frontend interaction.
-- Contract: OpenAPI, JSON Schema, error format, SSE names/order/terminal state, and cross-language compatibility.
-- Integration: authorization, database persistence/reload, model and tool adapters using controlled substitutes.
-- E2E: session creation → message submission → streamed completion → history reload under the approved identity mode.
-- Security/privacy: access denial, input limits, secret scanning, log redaction, malicious tool requests.
-- Agent evaluation: versioned synthetic cases; never a substitute for deterministic tests.
-
-Use synthetic data only. Failure tests cover disconnect, cancellation, timeout, retry conflicts, model/tool errors, and persistence failure. Approve performance targets only after measuring a baseline.

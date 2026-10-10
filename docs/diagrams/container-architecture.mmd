@@ -1,16 +1,16 @@
 flowchart TB
-    browser[Browser / 浏览器]
+    browser[浏览器]
     subgraph app[DrRainAI / DrRainAI]
-        web[Web UI / Web 界面\nReact + TypeScript / React + TypeScript]
-        gateway[Gateway / 网关\nGo / Go]
-        core[Business Core / 业务核心\nC++ / C++]
-        agent[Agent Runtime / Agent 运行时\nPython, single Agent / Python，单 Agent]
+        web[Web 界面\nReact + TypeScript]
+        gateway[Go 网关\nGo]
+        core[C++ 业务核心\nC++]
+        agent[Python Agent 运行时\nPython，单 Agent]
     end
-    db[(PostgreSQL proposal / PostgreSQL 提案)]
-    provider[Model Provider / 模型供应商]
-    browser --> web -->|HTTP + SSE / HTTP + SSE| gateway
-    gateway -->|HTTP/JSON / HTTP/JSON| core
-    gateway -->|run + normalized events / 运行 + 规范事件| agent
+    db[(PostgreSQL 提案)]
+    provider[模型供应商]
+    browser --> web -->|HTTP + SSE| gateway
+    gateway -->|HTTP/JSON| core
+    gateway -->|运行 + 规范事件| agent
     core --> db
-    agent -->|provider API / 供应商接口| provider
-    agent -.->|approved operations only / 仅限获批操作| core
+    agent -->|供应商接口| provider
+    agent -.->|仅限获批操作| core

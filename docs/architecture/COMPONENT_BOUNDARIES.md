@@ -1,6 +1,6 @@
-# Component Boundaries / 组件边界
+# 组件边界
 
-## 中文
+
 
 | 组件 | 公共接口（提案） | 允许依赖 | 配置要求 | 测试要求 |
 |---|---|---|---|---|
@@ -16,20 +16,3 @@
 前端只依赖公开 Gateway 合同；Gateway 编排 Core 与 Agent Runtime；Core 是业务和持久化权威；Agent Runtime 不能直连 Core 数据库。共享合同只定义交换格式，不引入跨组件业务逻辑。
 
 每个实现组件的 `README.md` 和 `AGENTS.md` 应在其获批创建时明确职责、禁止拥有内容、接口、允许依赖、配置、测试命令和文档更新要求。
-
-## English
-
-| Component | Public interface (proposed) | Allowed dependencies | Configuration | Testing |
-|---|---|---|---|---|
-| Web | Gateway HTTP/JSON and SSE | UI libraries and shared contracts | Gateway URL; no server secrets | Unit, interaction, contract, browser E2E |
-| Gateway | Browser HTTP/SSE; internal Core/Agent HTTP | Go standard library preferred; approved clients | Listen address, upstream URLs, rate/time limits, secret references | Unit, contract, integration, disconnect/timeout |
-| Core | Internal Gateway HTTP/JSON | C++ standard library and approved database driver | Database connection, listen settings, secret references | Domain unit, database integration, authorization |
-| Agent Runtime | Internal Gateway run/stream protocol and controlled tool API | Python standard library and reviewed model SDK | Provider secret references, timeout/iteration/budget limits | State machine, tool contracts, simulated models |
-
-Actual configuration names and launch commands must be chosen during implementation; this specification does not invent them. Inject secrets through a controlled runtime, never into version control.
-
-### Dependency direction
-
-The frontend depends only on the public Gateway contract; Gateway orchestrates Core and Agent Runtime; Core is authoritative for business rules and persistence; Agent Runtime has no direct Core database access. Shared contracts define exchange formats, not cross-component business logic.
-
-When an implementation component is approved, its `README.md` and `AGENTS.md` should specify responsibility, exclusions, interfaces, allowed dependencies, configuration, test commands, and documentation-update requirements.

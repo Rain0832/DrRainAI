@@ -1,6 +1,6 @@
-# Threat Model / 威胁模型
+# 威胁模型
 
-## 中文
+
 
 **状态：初始提案，需安全评审。**当前无可运行服务，以下是设计风险，不是已发现漏洞或安全保证。
 
@@ -24,28 +24,3 @@
 | 断连/重试导致重复副作用 | 取消传播、幂等键；有副作用工具需人工审批或事务语义 |
 
 具体认证方案、密钥管理器、限流阈值、审计保存期限、威胁分级和渗透测试要求尚未决定。上线前需做数据流与部署环境专项评审。
-
-## English
-
-**Status: initial proposal, requiring security review.** No runnable service exists; these are design risks, not confirmed vulnerabilities or guarantees.
-
-### Assets and boundaries
-
-- Assets: identity credentials, sessions/messages, run state, model credentials, tool credentials, audit records.
-- Boundaries: browser/Gateway; Gateway/Core/Agent; Agent/provider/tools; Core/database.
-- Trust: Core authoritatively checks identity and resource ownership; Agent, model output, and client input are untrusted.
-
-### Threats and proposed controls
-
-| Threat | Control |
-|---|---|
-| Unauthorized session read/write | Check principal/resource ownership server-side on every request; avoid existence disclosure on denial |
-| Prompt injection and malicious tools | No tools by default; per-tool allowlist, schema validation, and authorization on every invocation |
-| Credential exposure | Controlled secret management/injection; no secrets in logs, errors, contracts, or repository |
-| Abuse and cost exhaustion | Gateway rate limits, request-size limits, run/model/tool budgets |
-| XSS/CSRF/session theft | Encode rendered output; review cookies, CSRF, CSP, and security headers after auth is decided |
-| Supply-chain risk | Pin and review dependencies; vulnerability response and update process remain to be established |
-| Sensitive logs/backups | Do not log full conversations by default; access, retention, deletion, and backup policy remain open |
-| Duplicate side effects after disconnect/retry | Propagate cancellation and use idempotency; consequential tools need approval or transaction semantics |
-
-Authentication, secret manager, rate thresholds, audit retention, threat classification, and penetration-testing requirements are undecided. Review data flows and deployment environment before release.

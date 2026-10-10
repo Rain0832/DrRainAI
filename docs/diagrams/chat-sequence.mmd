@@ -1,26 +1,26 @@
 sequenceDiagram
-    actor U as User / 用户
-    participant W as Web / Web 客户端
-    participant G as Go Gateway / Go 网关
-    participant C as C++ Core / C++ 业务核心
-    participant A as Python Agent / Python Agent
-    participant M as Model Provider / 模型供应商
-    U->>W: Submit message / 提交消息
-    W->>G: Create run + Idempotency-Key / 创建运行 + 幂等键
-    G->>C: Validate ownership; persist user message and run / 校验所有权；持久化用户消息与运行
-    C-->>G: Authorized run_id / 已授权 run_id
-    G->>A: Execute bounded run / 执行有界运行
-    A->>M: Model request / 模型请求
-    M-->>A: Incremental output / 增量输出
-    A-->>G: Normalized events / 规范化事件
-    G-->>W: SSE run.started / message.delta / SSE 运行开始 / 文本增量
-    A-->>G: Agent terminal result / Agent 终态结果
-    G->>C: Persist assistant result / 持久化 assistant 结果
-    alt Persistence succeeds / 持久化成功
-        C-->>G: Durable result / 已持久化结果
+    actor U as 用户
+    participant W as Web 客户端
+    participant G as Go 网关
+    participant C as C++ 业务核心
+    participant A as Python Agent
+    participant M as 模型供应商
+    U->>W: 提交消息
+    W->>G: 创建运行 + 幂等键
+    G->>C: 校验所有权；持久化用户消息与运行
+    C-->>G: 已授权 run_id
+    G->>A: 执行有界运行
+    A->>M: 模型请求
+    M-->>A: 增量输出
+    A-->>G: 规范化事件
+    G-->>W: SSE 运行开始 / 文本增量
+    A-->>G: Agent 终态结果
+    G->>C: 持久化 assistant 结果
+    alt 持久化成功
+        C-->>G: 已持久化结果
         G-->>W: run.completed / 运行完成
-    else Persistence fails / 持久化失败
-        C-->>G: Persistence error / 持久化错误
+    else 持久化失败
+        C-->>G: 持久化错误
         G-->>W: run.failed / 运行失败
     end
-    W-->>U: Render final state / 显示最终状态
+    W-->>U: 显示最终状态

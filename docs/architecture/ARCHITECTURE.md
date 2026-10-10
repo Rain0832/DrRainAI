@@ -1,6 +1,6 @@
-# Architecture / 架构
+# 架构
 
-## 中文
+
 
 ### 状态与目标
 
@@ -25,29 +25,3 @@ Core 校验会话所有权并创建运行及用户消息后，Gateway 调用 Age
 ### 图示
 
 规范图源位于 `docs/diagrams/`：[系统上下文](../diagrams/system-context.mmd)、[容器](../diagrams/container-architecture.mmd)、[聊天时序](../diagrams/chat-sequence.mmd)、[Agent 状态机](../diagrams/agent-state-machine.mmd)、[本地部署](../diagrams/local-deployment.mmd)。
-
-## English
-
-### Status and target
-
-This is a logical architecture proposal for owner review; it does not mean components are implemented or deployed. Use a small number of processes with explicit boundaries. This phase adds no Kubernetes, message bus, service mesh, independent vector database, or container requirement.
-
-### Components
-
-| Component | Owns | Does not own |
-|---|---|---|
-| Web (React/TypeScript/Vite) | User interaction, session views, SSE presentation | Authorization decisions, secrets, source of truth |
-| Gateway (Go) | Public HTTP entry, request IDs, rate/timeout policy, auth entry, SSE relay, cancellation propagation | Core domain state, model policy |
-| Core (C++) | Domain rules, identity/session/message ownership checks, persistence boundary | Model execution, public network entry |
-| Agent Runtime (Python) | One bounded Agent, model adapters, approved retrieval/tool orchestration | Direct Core database access, independent authorization |
-| PostgreSQL (proposed) | Core-managed persistence | Direct writes from Agent |
-
-Call direction: Web → Gateway → Core; Gateway → Agent Runtime; the Agent requests permitted operations through controlled Core interfaces. Service interfaces are proposed as HTTP/JSON.
-
-### Chat transaction and stream
-
-Core validates session ownership and creates the run and user message before Gateway invokes Agent Runtime and relays normalized events. Core must persist a successful answer before Gateway emits `completed`. Models and tools cannot bypass Core to write the database. External semantics for timeouts, disconnects, cancellation, partial output, and persistence failure are in the [API contract](../../contracts/events/sse-events.md); reconnect/resume is unresolved.
-
-### Diagrams
-
-Canonical diagram sources are in `docs/diagrams/`: [System Context](../diagrams/system-context.mmd), [Containers](../diagrams/container-architecture.mmd), [Chat Sequence](../diagrams/chat-sequence.mmd), [Agent State Machine](../diagrams/agent-state-machine.mmd), and [Local Deployment](../diagrams/local-deployment.mmd).
