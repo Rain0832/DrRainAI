@@ -12,6 +12,8 @@ sequenceDiagram
     G->>A: 执行有界运行
     A->>M: 模型请求
     M-->>A: 增量输出
+    A->>C: 请求 Authorized Evidence
+    C-->>A: 返回已授权 Published Evidence
     A-->>G: 规范化事件
     G-->>W: SSE 运行开始 / 文本增量
     A-->>G: Agent 终态结果

@@ -13,4 +13,4 @@ flowchart TB
     gateway -->|运行 + 规范事件| agent
     core --> db
     agent -->|供应商接口| provider
-    agent -.->|仅限获批操作| core
+    agent -.->|Authorized Evidence API；仅限已发布且获批证据| core

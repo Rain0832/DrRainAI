@@ -13,3 +13,5 @@ ADR 记录重要选择、备选方案、代价、风险与复审条件。标为�
 | [0005](ADR-0005-local-development-and-deployment.md) | 本地开发与部署 | 提案 |
 | [0006](ADR-0006-agent-runtime.md) | Agent Runtime | 提案 |
 | [0007](ADR-0007-api-contracts.md) | API 合同 | 提案 |
+| [009](ADR-009-medical-record-lifecycle.md) | 医疗数据生命周期 | 提案 |
+| [011](ADR-011-authorized-evidence-api.md) | 授权证据 API | 提案 |

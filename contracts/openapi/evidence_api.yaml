@@ -1,0 +1,111 @@
+openapi: 3.1.0
+info:
+  title: DrRainAI Authorized Evidence API
+  version: 0.1.0-draft
+  description: >
+    C++ Core 提供给 Python Agent 的授权证据接口草案。仅返回已授权且处于
+    Published 状态的医疗记录；认证、分页和排序语义仍需所有者批准。
+servers:
+  - url: https://core.example.invalid
+    description: 占位地址，获批环境后替换。
+paths:
+  /api/v1/evidence/retrieve:
+    post:
+      operationId: retrieveEvidence
+      summary: 检索授权证据
+      description: Core 校验租户、资源授权和 Published 状态后返回证据对象。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetrieveEvidenceRequest'
+      responses:
+        '200':
+          description: 授权证据列表
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Evidence'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+components:
+  schemas:
+    RetrieveEvidenceRequest:
+      type: object
+      required: [query_text, session_context]
+      properties:
+        query_text:
+          type: string
+          minLength: 1
+          maxLength: 20000
+          description: Agent 生成的检索文本。
+        session_context:
+          type: object
+          description: 用于授权和检索范围判断的会话上下文，不得包含未授权的敏感数据。
+          additionalProperties: true
+    Evidence:
+      type: object
+      required:
+        - evidence_id
+        - source_type
+        - record_id
+        - version
+        - content
+        - metadata
+      properties:
+        evidence_id:
+          type: string
+        source_type:
+          type: string
+          description: 证据来源类型，例如 medical_record。
+        record_id:
+          type: string
+        version:
+          type: string
+        content:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/EvidenceMetadata'
+    EvidenceMetadata:
+      type: object
+      required: [hospital, occurred_at, redacted_patient_identifier]
+      properties:
+        hospital:
+          type: string
+        occurred_at:
+          type: string
+          format: date-time
+        redacted_patient_identifier:
+          type: string
+          description: 脱敏患者标识，不得为直接身份标识。
+      additionalProperties: true
+    Problem:
+      type: object
+      required: [type, title, status]
+      properties:
+        type:
+          type: string
+          format: uri-reference
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+          description: 不含敏感信息的错误详情。
+  responses:
+    Problem:
+      description: 请求失败
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
