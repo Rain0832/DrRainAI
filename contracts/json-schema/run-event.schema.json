@@ -4,7 +4,14 @@
   "title": "DrRainAI Run Event (Draft) / DrRainAI 运行事件（草案）",
   "description": "DRAFT: envelope for SSE events; no implementation is implied. / 草案：SSE 事件封装，不代表已实现。",
   "type": "object",
-  "required": ["event_id", "run_id", "request_id", "type", "occurred_at", "data"],
+  "required": [
+    "event_id",
+    "run_id",
+    "request_id",
+    "type",
+    "occurred_at",
+    "data"
+  ],
   "properties": {
     "event_id": {
       "type": "string",
@@ -40,25 +47,25 @@
   },
   "allOf": [
     {
-      "if": { "properties": { "type": { "const": "run.started" } } },
-      "then": {
+      "if": {
         "properties": {
-          "data": {
-            "type": "object",
-            "required": ["status"],
-            "properties": { "status": { "const": "running" } }
+          "type": {
+            "const": "run.started"
           }
         }
-      }
-    },
-    {
-      "if": { "properties": { "type": { "const": "message.delta" } } },
+      },
       "then": {
         "properties": {
           "data": {
             "type": "object",
-            "required": ["text"],
-            "properties": { "text": { "type": "string" } }
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "const": "running"
+              }
+            }
           }
         }
       }
@@ -66,16 +73,49 @@
     {
       "if": {
         "properties": {
-          "type": { "enum": ["tool.started", "tool.completed"] }
+          "type": {
+            "const": "message.delta"
+          }
         }
       },
       "then": {
         "properties": {
           "data": {
             "type": "object",
-            "required": ["tool_name"],
+            "required": [
+              "text"
+            ],
             "properties": {
-              "tool_name": { "type": "string" },
+              "text": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": [
+              "tool.started",
+              "tool.completed"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "required": [
+              "tool_name"
+            ],
+            "properties": {
+              "tool_name": {
+                "type": "string"
+              },
               "summary": {
                 "type": "string",
                 "description": "Safe, non-sensitive summary. / 安全且不含敏感信息的摘要。"
@@ -86,52 +126,101 @@
       }
     },
     {
-      "if": { "properties": { "type": { "const": "tool.failed" } } },
+      "if": {
+        "properties": {
+          "type": {
+            "const": "tool.failed"
+          }
+        }
+      },
       "then": {
         "properties": {
           "data": {
             "type": "object",
-            "required": ["tool_name", "error"],
+            "required": [
+              "tool_name",
+              "error"
+            ],
             "properties": {
-              "tool_name": { "type": "string" },
-              "error": { "$ref": "#/$defs/error" }
+              "tool_name": {
+                "type": "string"
+              },
+              "error": {
+                "$ref": "#/$defs/error"
+              }
             }
           }
         }
       }
     },
     {
-      "if": { "properties": { "type": { "const": "run.failed" } } },
+      "if": {
+        "properties": {
+          "type": {
+            "const": "run.failed"
+          }
+        }
+      },
       "then": {
         "properties": {
           "data": {
             "type": "object",
-            "required": ["error"],
-            "properties": { "error": { "$ref": "#/$defs/error" } }
+            "required": [
+              "error"
+            ],
+            "properties": {
+              "error": {
+                "$ref": "#/$defs/error"
+              }
+            }
           }
         }
       }
     },
     {
-      "if": { "properties": { "type": { "const": "run.completed" } } },
+      "if": {
+        "properties": {
+          "type": {
+            "const": "run.completed"
+          }
+        }
+      },
       "then": {
         "properties": {
           "data": {
             "type": "object",
-            "required": ["message_id"],
-            "properties": { "message_id": { "type": "string" } }
+            "required": [
+              "message_id"
+            ],
+            "properties": {
+              "message_id": {
+                "type": "string"
+              }
+            }
           }
         }
       }
     },
     {
-      "if": { "properties": { "type": { "const": "run.cancelled" } } },
+      "if": {
+        "properties": {
+          "type": {
+            "const": "run.cancelled"
+          }
+        }
+      },
       "then": {
         "properties": {
           "data": {
             "type": "object",
-            "required": ["reason"],
-            "properties": { "reason": { "type": "string" } }
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string"
+              }
+            }
           }
         }
       }
@@ -140,14 +229,22 @@
   "$defs": {
     "error": {
       "type": "object",
-      "required": ["code", "message", "retryable"],
+      "required": [
+        "code",
+        "message",
+        "retryable"
+      ],
       "properties": {
-        "code": { "type": "string" },
+        "code": {
+          "type": "string"
+        },
         "message": {
           "type": "string",
           "description": "Safe and non-sensitive. / 安全且不含敏感信息。"
         },
-        "retryable": { "type": "boolean" }
+        "retryable": {
+          "type": "boolean"
+        }
       }
     }
   }
